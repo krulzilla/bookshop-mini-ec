@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 // Config libs
+app.set('view engine', 'ejs');
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.DATABASE || 'mongodb://localhost/learning').then(data => {
     console.log('Connected Mongodb successfully!');
@@ -26,6 +27,13 @@ const testApi = require('./routes/testapi.route');
 
 // Use routes
 app.use('/api/test', testApi);
+
+app.get('/', (req, res) => {
+    const query = req.query
+    res.render('index', {
+        query
+    });
+})
 
 app.listen(port, () => {
     console.log(`Server is starting at port ${port}`);
