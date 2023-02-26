@@ -22,13 +22,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Import routes
 // const userRoute = require('./routes/user.route');
+const testApi = require('./routes/testapi.route');
 
 // Use routes
-// app.use('/api/user', userRoute);
-
-app.get('/', (req, res, next) => {
-    res.send('Hello world~');
-})
+app.use('/api/test', testApi);
 
 app.listen(port, () => {
     console.log(`Server is starting at port ${port}`);
