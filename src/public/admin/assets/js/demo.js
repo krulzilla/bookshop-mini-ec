@@ -456,7 +456,7 @@ demo = {
     	});
 	},
 
-	showSwal: function(type){
+	showSwal: function(type, props){
         if(type == 'basic'){
         	swal({
                 title: "Here's a message!",
@@ -479,6 +479,15 @@ demo = {
                 buttonsStyling: false,
                 confirmButtonClass: "btn btn-success btn-fill",
                 type: "success"
+            }).catch(swal.noop)
+
+    	}else if(type == 'custom'){
+        	swal({
+                title: `${props.title}`,
+                text: `${props.text}`,
+                buttonsStyling: false,
+                confirmButtonClass: `btn ${props.btn} btn-fill`,
+                type: `${props.type}`
             }).catch(swal.noop)
 
     	}else if(type == 'warning-message-and-confirmation'){
