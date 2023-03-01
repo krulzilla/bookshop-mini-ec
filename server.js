@@ -6,11 +6,14 @@ const port = process.env.PORT || 3000;
 // Import libs
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const expressLayouts = require('express-ejs-layouts');
 const path = require('path');
 app.set('views', path.join(__dirname, '/src/views'));
 
 // Config libs
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.set('layout', './layouts/master_layout');
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.DATABASE || 'mongodb://localhost/learning').then(data => {
     console.log('Connected Mongodb successfully!');
@@ -32,10 +35,8 @@ app.use('/api/test', testApi);
 app.use('/admincp', adminRoute);
 
 app.get('/', (req, res) => {
-    const query = req.query
-    res.render('index', {
-        query
-    });
+    const query = req.query;
+    res.render('admin/view_users');
 })
 
 // app.get('/admincp/', (req, res) => {

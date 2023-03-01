@@ -1,0 +1,131 @@
+<div class="sidebar" data-color="blue" data-image="../../public/admin/assets/img/full-screen-image-4.jpg">
+    <!--
+
+        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
+                Navbar equally                              : data-color="primary | info | success | warning | danger | ?"
+        Tip 2: you can also add an image using data-image tag
+
+    -->
+
+    <div class="logo">
+        <a href="/admincp" class="simple-text logo-mini">
+            Vn
+        </a>
+
+        <a href="/admincp" class="simple-text logo-normal">
+            krul bookshop
+        </a>
+    </div>
+
+    <div class="sidebar-wrapper">
+        <div class="user">
+            <div class="info">
+                <div class="photo">
+                    <img src="../../public/admin/assets/img/default-avatar.png" />
+                </div>
+
+                <a data-toggle="collapse" href="#collapseExample" class="collapsed">
+						<span>
+							Tania Andrew
+	                        <b class="caret"></b>
+						</span>
+                </a>
+
+                <div class="collapse" id="collapseExample">
+                    <ul class="nav">
+                        <li>
+                            <a href="#pablo">
+                                <span class="sidebar-mini">MP</span>
+                                <span class="sidebar-normal">My Profile</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#pablo">
+                                <span class="sidebar-mini">EP</span>
+                                <span class="sidebar-normal">Edit Profile</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#pablo">
+                                <span class="sidebar-mini">S</span>
+                                <span class="sidebar-normal">Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <% const page = currentPage.split('.'); %>
+        <ul class="nav">
+            <li <% if (page[0] == 'dashboard') { %>class="active"<% }%>>
+                <a href="/admincp">
+                    <i class="pe-7s-graph"></i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="collapse" href="#manageUsers">
+                    <i class="pe-7s-users"></i>
+                    <p>Manage Users
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse<% if (page[0] == 'user') { %>-in<% }%>" id="manageUsers">
+                    <ul class="nav">
+                        <li <% if (page[0] == 'user' && page[1] == 'view') { %>class="active"<% }%>>
+                            <a href="/admincp/user/">
+                                <span class="sidebar-mini">V</span>
+                                <span class="sidebar-normal">View Users</span>
+                            </a>
+                        </li>
+                        <li <% if (page[0] == 'user' && page[1] == 'create') { %>class="active"<% }%>>
+                            <a href="/admincp/user/create">
+                                <span class="sidebar-mini">C</span>
+                                <span class="sidebar-normal">Create User</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a data-toggle="collapse" href="#manageProducts">
+                    <i class="pe-7s-box2"></i>
+                    <p>Manage Products
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse<% if (page[0] == 'product') { %>-in<% }%>" id="manageProducts">
+                    <ul class="nav">
+                        <li <% if (page[0] == 'product' && page[1] == 'view') { %>class="active"<% }%>>
+                            <a href="../../public/admin/examples/forms/regular.html">
+                                <span class="sidebar-mini">V</span>
+                                <span class="sidebar-normal">View Products</span>
+                            </a>
+                        </li>
+                        <li <% if (page[0] == 'product' && page[1] == 'view') { %>class="active"<% }%>>
+                            <a href="../../public/admin/examples/forms/extended.html">
+                                <span class="sidebar-mini">C</span>
+                                <span class="sidebar-normal">Create Product</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="#orders">
+                    <i class="pe-7s-note2"></i>
+                    <p>Manage Orders</p>
+                </a>
+            </li>
+            <li>
+                <a href="#logout">
+                    <i class="pe-7s-back"></i>
+                    <p>Log out</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

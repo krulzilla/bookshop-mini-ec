@@ -1,4 +1,8 @@
 const userModel = require('../models/user.model');
+const config = {
+    title: 'Manage Users',
+    ...require('../config/layout.config').admin
+}
 
 class User {
     async getAll(req, res) {
@@ -6,6 +10,8 @@ class User {
             const users = await userModel.find({});
             if (users) {
                 return res.render('admin/view_users', {
+                    currentPage: 'user.view',
+                    ...config,
                     users
                 });
             }
@@ -14,7 +20,11 @@ class User {
         }
     }
 
-    async create(req, res) {
+    create(req, res) {
+        return res.render(res.render('admin/create_user', {currentPage: 'user.create', ...config}));
+    }
+
+    async save(req, res) {
         try {
             const params = req.body.params;
             const newUser = await userModel.create({

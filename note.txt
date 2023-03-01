@@ -1,0 +1,9 @@
+class Controller {
+    async getAll        -> get
+    async getById       -> get
+    async create        -> get
+    async save          => post
+    async edit          -> get
+    async update        => post
+    async destroy       => post
+}
