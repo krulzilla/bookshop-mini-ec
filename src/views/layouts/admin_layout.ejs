@@ -1,4 +1,4 @@
-<%- include('./admin_partials/header.ejs') %>
+<%- include('./admin_partials/header.ejs') %> <!-- This partial import css libs -->
 
 <!-- Wrapper content -->
 <div class="wrapper">
@@ -8,7 +8,13 @@
         <%- include('./admin_partials/navbar.ejs') %>
 
         <%- body %>
+
+        <%- include(footerCopyright) %>
     </div>
 </div>
 
-<%- include('./admin_partials/footer.ejs') %>
+<%- include('./admin_partials/footer.ejs') %> <!-- This partial import js libs -->
+
+<%- defineContent('js') %>
+
+</html>

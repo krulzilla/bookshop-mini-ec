@@ -21,7 +21,7 @@ class User {
     }
 
     create(req, res) {
-        return res.render(res.render('admin/create_user', {currentPage: 'user.create', ...config}));
+        return res.render('admin/create_user', {currentPage: 'user.create', ...config});
     }
 
     async save(req, res) {
@@ -51,6 +51,13 @@ class User {
         }
     }
 
+    async update(req, res) {
+
+    }
+
+    async destroy(req, res) {
+
+    }
 }
 
 module.exports = new User();

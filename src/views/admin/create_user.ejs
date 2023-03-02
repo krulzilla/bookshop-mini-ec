@@ -63,32 +63,32 @@
     </div>
 </div>
 
-<%- include(footerCopyright) %>
 
-<!--<script defer>-->
-<!--    $('#create-btn').click(function (e) {-->
-<!--        const values = {};-->
-<!--        $.each($('#create-form').serializeArray(), function(i, field) {-->
-<!--            values[field.name] = field.value;-->
-<!--        });-->
-<!--        $.ajax({-->
-<!--            url: '',-->
-<!--            method: 'post',-->
-<!--            data: {-->
-<!--                params: values-->
-<!--            }-->
-<!--        }).then(data => {-->
-<!--            if (data.status === 201) {-->
-<!--                demo.showSwal('custom', {-->
-<!--                    title: 'Success',-->
-<!--                    text: 'Created new user successfully~',-->
-<!--                    type: 'success',-->
-<!--                    btn: 'btn-success'-->
-<!--                })-->
-<!--            }-->
-<!--        }).catch(err => {-->
-<!--            alert('Error happened!');-->
-<!--            console.log(err);-->
-<!--        })-->
-<!--    })-->
-<!--</script>-->
+<%- contentFor('js') %>
+<script defer>
+    $('#create-btn').click(function (e) {
+        const values = {};
+        $.each($('#create-form').serializeArray(), function(i, field) {
+            values[field.name] = field.value;
+        });
+        $.ajax({
+            url: '',
+            method: 'post',
+            data: {
+                params: values
+            }
+        }).then(data => {
+            if (data.status === 201) {
+                demo.showSwal('custom', {
+                    title: 'Success',
+                    text: 'Created new user successfully~',
+                    type: 'success',
+                    btn: 'btn-success'
+                })
+            }
+        }).catch(err => {
+            alert('Error happened!');
+            console.log(err);
+        })
+    })
+</script>

@@ -1,0 +1,52 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">Create new product</div>
+                    <div class="content">
+                        <form action="./create" method="post">
+                            <div class="form-group">
+                                <label>Book name</label>
+                                <input type="text" name="name" placeholder="Enter book name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Author</label>
+                                <input type="text" name="author" placeholder="Enter author" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Publisher</label>
+                                <input type="text" name="publisher" placeholder="Enter publisher" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Published at</label>
+                                <input type="date" name="published_at" placeholder="Enter publisher" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Amount</label>
+                                <input type="number" name="amount" value="10" placeholder="0" min="0" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <input type="text" name="description" placeholder="Enter description" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Price</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">đ</span>
+                                    <input type="number" class="form-control" name="price">
+                                    <span class="input-group-addon">.000</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input type="file" name="img_url" placeholder="Enter publisher" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-fill btn-info">Create</button>
+                        </form>
+                    </div>
+                </div> <!-- end card -->
+            </div> <!--  end col-md-12  -->
+        </div> <!-- end row -->
+    </div>
+</div>
