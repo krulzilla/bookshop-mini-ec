@@ -8,8 +8,10 @@ const config = require('../config/layout.config').admin;
 router.get('/login', (req, res) => {
     res.render('admin/login', {layout: false});
 })
+router.post('/login', authController.loginAdmin);
 
-router.get('/handle', authController.isAdmin);
+router.use(authController.isAdmin);
+router.get('/logout', authController.logout);
 
 router.get('/', (req, res) => {
     res.render('admin/dashboard', {title: 'Dashboard', currentPage: 'dashboard', ...config})

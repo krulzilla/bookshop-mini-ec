@@ -34,6 +34,10 @@ const adminRoute = require('./src/routes/admin.route');
 app.use('/api/test', testApi);
 app.use('/admincp', adminRoute);
 
+app.get('/', (req, res) => {
+    res.send('Hello world');
+})
+
 app.listen(port, () => {
     console.log(`Server is starting at port ${port}`);
 })

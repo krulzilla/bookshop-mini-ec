@@ -3,10 +3,23 @@ const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = require('../config/secret_key.config');
 
 class Auth {
-    async isAdmin(req, res) {
+    async isAdmin(req, res, next) {
+        const token = req.cookies.token;
         try {
-            const username = req.query.username ?? "";
-            const password = req.query.password ?? "";
+            const user = jwt.verify(token, SECRET_KEY);
+            if (user.role === "Admin") {
+                req.user = user;
+                next();
+            } else return res.redirect('/');
+        } catch (e) {
+            res.clearCookie('token');
+            return res.redirect('./login');
+        }
+    }
+
+    async loginAdmin(req, res) {
+        try {
+            const {username, password} = req.body;
             const user = await userModel.findOne({
                 username,
                 password
@@ -26,6 +39,11 @@ class Auth {
         } catch (e) {
             res.status(500).send("Error happened: " + e);
         }
+    }
+
+    async logout(req, res) {
+        res.clearCookie('token');
+        return res.redirect('./login');
     }
 }
 
