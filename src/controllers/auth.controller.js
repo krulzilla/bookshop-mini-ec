@@ -4,16 +4,17 @@ const { SECRET_KEY } = require('../config/secret_key.config');
 
 class Auth {
     async isAdmin(req, res, next) {
-        const token = req.cookies.token;
+        const rawToken = req.cookies.token ?? " ";
         try {
+            const token = rawToken.split(" ")[1];
             const user = jwt.verify(token, SECRET_KEY);
             if (user.role === "Admin") {
                 req.user = user;
                 next();
-            } else return res.redirect('/');
+            } else return res.redirect('/admincp/login');
         } catch (e) {
             res.clearCookie('token');
-            return res.redirect('./login');
+            return res.redirect('/admincp/login');
         }
     }
 
@@ -30,20 +31,20 @@ class Auth {
                 const token = jwt.sign({
                     id, role
                 }, SECRET_KEY, {expiresIn: "1h"});
-                res.cookie('token', token, {
+                res.cookie('token', 'Bearer ' + token, {
                     httpOnly: true,
                     // maxAge: 1 * 60 * 60 * 1000
                 })
-                res.redirect('./');
-            }
+                return res.redirect('./');
+            } else return res.redirect('/admincp/login');
         } catch (e) {
-            res.status(500).send("Error happened: " + e);
+            return res.status(500).send("Error happened: " + e);
         }
     }
 
     async logout(req, res) {
         res.clearCookie('token');
-        return res.redirect('./login');
+        return res.redirect('/admincp/login');
     }
 }
 
