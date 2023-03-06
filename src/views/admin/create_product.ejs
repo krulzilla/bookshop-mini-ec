@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="header">Create new product</div>
                     <div class="content">
-                        <form action="./create" method="post">
+                        <form action="./create" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label>Book name</label>
                                 <input type="text" name="name" placeholder="Enter book name" class="form-control">
@@ -40,7 +40,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Image</label>
-                                <input type="file" name="img_url" placeholder="Enter publisher" class="form-control">
+                                <input type="file" name="image" placeholder="Enter publisher" class="form-control">
                             </div>
                             <button type="submit" class="btn btn-fill btn-info">Create</button>
                         </form>

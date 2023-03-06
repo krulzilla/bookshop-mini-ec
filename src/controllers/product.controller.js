@@ -7,7 +7,7 @@ const config = {
 class Product {
     async getAll(req, res) {
         try {
-            const products = await productModel.find({});
+            const products = await productModel.find({}).sort({name: -1});
             if (products) {
                 return res.render('admin/view_products', {
                     currentPage: 'product.view',
@@ -44,11 +44,11 @@ class Product {
                 updated_at: Date.now(),
             })
             if (newProduct) {
-                return res.status(201).json({
-                    status: 201,
-                    msg: "Created new product successfully!",
-                    obj: newProduct
-                })
+                // return res.status(201).json({
+                //     status: 201,
+                //     msg: "Created new product successfully!",
+                // })
+                return res.redirect('./create');
             }
         } catch (e) {
             return res.status(500).send('Error happened: ' + e);
