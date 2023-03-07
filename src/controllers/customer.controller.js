@@ -22,6 +22,10 @@ class Customer {
     async login(req, res) {
         return res.render('login', {layout: false});
     }
+
+    async register(req, res) {
+        return res.render('register', {layout: false});
+    }
 }
 
 module.exports = new Customer();
