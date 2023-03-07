@@ -35,7 +35,7 @@ app.use('/api/test', testApi);
 app.use('/admincp', adminRoute);
 
 app.get('/', (req, res) => {
-    res.send('Hello world');
+    res.render('index', {layout: false});
 })
 
 app.listen(port, () => {
