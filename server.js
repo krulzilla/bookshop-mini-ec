@@ -26,17 +26,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Import routes
-// const userRoute = require('./routes/user.route');
 const testApi = require('./src/routes/testapi.route');
 const adminRoute = require('./src/routes/admin.route');
+const customerRoute = require('./src/routes/customer.route');
 
 // Use routes
-app.use('/api/test', testApi);
+app.use('/', customerRoute);
 app.use('/admincp', adminRoute);
-
-app.get('/', (req, res) => {
-    res.render('index', {layout: false});
-})
+app.use('/api/test', testApi);
 
 app.listen(port, () => {
     console.log(`Server is starting at port ${port}`);
