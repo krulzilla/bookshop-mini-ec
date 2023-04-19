@@ -125,12 +125,12 @@
 
                     <div class="col-md-4">
                         <div class="card card-product card-plain">
-                            <div class="card-image">
+                            <div class="card-image" onclick="window.location = '/product/<%= ele._id %>'" style="cursor: pointer">
                                 <img class="img rounded" src="/public/resources/images/<%=  ele.img_url %>"/>
                             </div>
                             <div class="card-body">
                                 <h4 class="card-title">
-                                    <a href="#pablo"><%=  ele.name %></a>
+                                    <a href="/product/<%= ele._id %>"><%=  ele.name %></a>
                                 </h4>
                                 <p class="card-description">
                                     <% let words = ele.description.split(' ');

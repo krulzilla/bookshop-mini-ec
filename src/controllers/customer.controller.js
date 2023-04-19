@@ -21,6 +21,20 @@ class Customer {
         }
     }
 
+    async product(req, res) {
+        try {
+            const id = req.params.id;
+            const token = !!req.cookies.token;
+            const product = await productModel.findOne({_id: id});
+            if (product) {
+                return res.render('product_detail', {product: product, token: token});
+            } return res.redirect('/')
+
+        } catch (e) {
+            return res.status(500).send('Error happened');
+        }
+    }
+
     async login(req, res) {
         const token = !!req.cookies.token;
         return res.render('login', {layout: false, token: token});

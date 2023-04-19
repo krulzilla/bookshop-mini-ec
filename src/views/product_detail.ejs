@@ -1,0 +1,230 @@
+<div class="wrapper">
+    <div class="page-header page-header-mini">
+        <div class="page-header-image" data-parallax="true"
+             style="background-image: url('/public/assets/img/bg-1.jpg') ;">
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div id="productCarousel" class="carousel slide" data-ride="carousel" data-interval="8000">
+                        <ol class="carousel-indicators">
+                            <li data-target="#productCarousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#productCarousel" data-slide-to="1"></li>
+                            <li data-target="#productCarousel" data-slide-to="2"></li>
+                            <li data-target="#productCarousel" data-slide-to="3"></li>
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <img class="d-block img-raised"
+                                     src="/public/resources/images/<%= product.img_url %>"
+                                     alt="First slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-raised"
+                                     src="/public/resources/images/<%= product.img_url %>"
+                                     alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-raised"
+                                     src="/public/resources/images/<%= product.img_url %>"
+                                     alt="Third slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block img-raised"
+                                     src="/public/resources/images/<%= product.img_url %>"
+                                     alt="Third slide">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
+                            <button type="button" class="btn btn-primary btn-icon btn-round btn-sm" name="button">
+                                <i class="now-ui-icons arrows-1_minimal-left"></i>
+                            </button>
+                        </a>
+                        <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
+                            <button type="button" class="btn btn-primary btn-icon btn-round btn-sm" name="button">
+                                <i class="now-ui-icons arrows-1_minimal-right"></i>
+                            </button>
+                        </a>
+                    </div>
+                    <p class="blockquote blockquote-primary">
+                        <small>Return Policy of krulzilla bookshop</small>
+                        <br>
+                        <br>
+                        Paid skills are eligible for a full refund within 3 days of purchase by contacting
+                    </p>
+                </div>
+                <div class="col-md-6 ml-auto mr-auto">
+                    <h2 class="title"> <%= product.name %> </h2>
+                    <h5 class="category"><%= product.author %></h5>
+                    <h2 class="main-price"><%= product.price.toLocaleString() + 'đ' %></h2>
+                    <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
+                        <div class="card card-plain">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                   aria-expanded="true" aria-controls="collapseOne">
+                                    Description
+                                    <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                </a>
+                            </div>
+                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="card-body">
+                                    <p>
+                                        <% let words = product.description.split(' ');
+                                        let description = words.length > 50 ? words.slice(0, 50).join(' ') + ' ...<a style="cursor: pointer; font-weight: 400">Load more</a>' : words.join(' ');
+                                        %>
+                                        <%- description %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-plain">
+                            <div class="card-header" role="tab" id="headingTwo">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
+                                   aria-expanded="false" aria-controls="collapseTwo">
+                                    Details:
+                                    <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                </a>
+                            </div>
+                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="card-body">
+                                    <p>Author: <%= product.author %></p>
+                                    <p>Publisher: <%= product.publisher %></p>
+                                    <p>Published at: <%= product.published_at.getDate() + '/' + (product.published_at.getMonth() + 1) + '/' + product.published_at.getFullYear() %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <button class="btn btn-primary mr-3">Add to Cart &nbsp;<i
+                                    class="now-ui-icons shopping_cart-simple"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section related-products" data-background-color="black">
+        <div class="container">
+            <h3 class="title text-center">You may also be interested in:</h3>
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
+                    <div class="card card-product">
+                        <div class="card-image">
+                            <a href="#pablo">
+                                <img class="img rounded"
+                                     src="/public/assets/img/saint-laurent.jpg"/>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="category text-danger">Trending</h6>
+                            <h4 class="card-title">
+                                <a href="#pablo" class="card-link">Dolce & Gabbana</a>
+                            </h4>
+                            <div class="card-description">
+                                Dolce & Gabbana's 'Greta' tote has been crafted in Italy from hard-wearing red
+                                textured-leather.
+                            </div>
+                            <div class="card-footer">
+                                <div class="price-container">
+                                    <span class="price">€1,459</span>
+                                </div>
+                                <button class="btn btn-neutral btn-icon btn-round pull-right" rel="tooltip" title=""
+                                        data-placement="left" data-original-title="Add to wishlist">
+                                    <i class="now-ui-icons ui-2_favourite-28"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="card card-product">
+                        <div class="card-image">
+                            <a href="#pablo">
+                                <img class="img rounded"
+                                     src="/public/assets/img/gucci.jpg"/>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="category text-muted">Popular</h6>
+                            <h4 class="card-title">
+                                <a href="#pablo" class="card-link">Balmain</a>
+                            </h4>
+                            <div class="card-description">
+                                Balmain's mid-rise skinny jeans are cut with stretch to ensure they retain their
+                                second-skin fit but move comfortably.
+                            </div>
+                            <div class="card-footer">
+                                <div class="price-container">
+                                    <span class="price">€459</span>
+                                </div>
+                                <button class="btn btn-neutral btn-icon btn-round pull-right" rel="tooltip" title=""
+                                        data-placement="left" data-original-title="Add to wishlist">
+                                    <i class="now-ui-icons ui-2_favourite-28"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="card card-product">
+                        <div class="card-image">
+                            <a href="#pablo">
+                                <img class="img rounded"
+                                     src="/public/assets/img/wooyoungmi.jpg"/>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="category text-muted">Popular</h6>
+                            <h4 class="card-title">
+                                <a href="#pablo" class="card-link">Balenciaga</a>
+                            </h4>
+                            <div class="card-description">
+                                Balenciaga's black textured-leather wallet is finished with the label's iconic 'Giant'
+                                studs. This is where you can...
+                            </div>
+                            <div class="card-footer">
+                                <div class="price-container">
+                                    <span class="price">€559</span>
+                                </div>
+                                <button class="btn btn-neutral btn-icon btn-round pull-right" rel="tooltip" title=""
+                                        data-placement="left" data-original-title="Add to wishlist">
+                                    <i class="now-ui-icons ui-2_favourite-28"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="card card-product">
+                        <div class="card-image">
+                            <a href="#pablo">
+                                <img class="img rounded"
+                                     src="/public/assets/img/saint-laurent1.jpg"/>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="category text-rose">Trending</h6>
+                            <h4 class="card-title">
+                                <a href="#pablo" class="card-link">Dolce & Gabbana</a>
+                            </h4>
+                            <div class="card-description">
+                                Dolce & Gabbana's 'Greta' tote has been crafted in Italy from hard-wearing red
+                                textured-leather.
+                            </div>
+                            <div class="card-footer">
+                                <div class="price-container">
+                                    <span class="price"> € 1,359</span>
+                                </div>
+                                <button class="btn btn-neutral btn-icon btn-round pull-right" rel="tooltip" title=""
+                                        data-placement="left" data-original-title="Add to wishlist">
+                                    <i class="now-ui-icons ui-2_favourite-28"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

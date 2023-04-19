@@ -5,6 +5,7 @@ const authController = require('../controllers/auth.controller');
 
 router.get('/', customerController.home);
 router.get('/products', customerController.products);
+router.get('/product/:id', customerController.product);
 
 // Login - Register - Logout
 router.get('/login', authController.loggedIn, customerController.login);
