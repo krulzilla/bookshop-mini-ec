@@ -4,7 +4,8 @@ class Customer {
     async home(req, res) {
         try {
             const products = await productModel.find({});
-            return res.render('index', {products: products});
+            const token = !!req.cookies.token;
+            return res.render('index', {products: products, token: token});
         } catch (e) {
             return res.status(500).send('Error happened');
         }
@@ -13,18 +14,21 @@ class Customer {
     async products(req, res) {
         try {
             const products = await productModel.find({});
-            return res.render('products', {products: products});
+            const token = !!req.cookies.token;
+            return res.render('products', {products: products, token: token});
         } catch (e) {
             return res.status(500).send('Error happened');
         }
     }
 
     async login(req, res) {
-        return res.render('login', {layout: false});
+        const token = !!req.cookies.token;
+        return res.render('login', {layout: false, token: token});
     }
 
     async register(req, res) {
-        return res.render('register', {layout: false});
+        const token = !!req.cookies.token;
+        return res.render('register', {layout: false, token: token});
     }
 }
 
