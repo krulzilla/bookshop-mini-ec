@@ -57,8 +57,9 @@
                 </div>
                 <div class="col-md-6 ml-auto mr-auto">
                     <h2 class="title"> <%= product.name %> </h2>
-                    <h5 class="category"><%= product.author %></h5>
+                    <h4 class="category"><%= product.author %></h4>
                     <h2 class="main-price"><%= product.price.toLocaleString() + 'đ' %></h2>
+                    <h5 class="category">Available: <%= product.amount %> products</h5>
                     <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
                         <div class="card card-plain">
                             <div class="card-header" role="tab" id="headingOne">

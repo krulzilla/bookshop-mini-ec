@@ -1,0 +1,181 @@
+<div class="wrapper">
+    <div class="section" style="background-image: url('/public/assets/img/bg-2.jpg');">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="title text-center">My Account</h4>
+                    <div class="nav-align-center">
+                        <ul class="nav nav-pills nav-pills-primary nav-pills-just-icons" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#profile" role="tablist" title="Manage account">
+                                    <i class="now-ui-icons users_circle-08"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#password" role="tablist">
+                                    <i class="now-ui-icons text_caps-small"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <br>
+                    <br>
+                    <!-- Tab panes -->
+                    <div class="tab-content gallery">
+                        <div class="tab-pane active" id="profile" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-5 ml-auto mr-auto">
+                                    <div class="card card-background card-background-product card-raised" style="background-image: url('/public/assets/img/user-1.jpg')">
+                                        <div class="card-body">
+                                            <h2 class="card-title">Welcome back</h2>
+                                            <p class="card-description text-white">
+                                                <%= user.username %>
+                                            </p>
+                                            <label class="badge badge-warning">Golden member</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <!-- Form manage account -->
+                                    <div class="card card-contact card-raised">
+                                        <form role="form" id="contact-form" method="post">
+                                            <div class="card-header text-center">
+                                                <h4 class="card-title">Account</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label>Fullname</label>
+                                                        <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="now-ui-icons travel_info"></i>
+                                                    </span>
+                                                    <input type="email" placeholder="Fullname Here..." value="<%= user.fullname %>" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 pr-2">
+                                                        <label>Age</label>
+                                                        <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="now-ui-icons business_badge"></i>
+                                                    </span>
+                                                            <input type="text" class="form-control" placeholder="Age Here..." value="<%= user.age %>" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 pl-2">
+                                                        <div class="form-group">
+                                                            <label>Phone number</label>
+                                                            <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="now-ui-icons tech_mobile"></i>
+                                                        </span>
+                                                                <input type="text" placeholder="Phone Here..." value="<%= user.phone %>" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label>Email address</label>
+                                                        <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="now-ui-icons ui-1_email-85"></i>
+                                                    </span>
+                                                    <input type="email" placeholder="Email Here..." value="<%= user.email %>" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label>Address</label>
+                                                        <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="now-ui-icons location_pin"></i>
+                                                    </span>
+                                                    <input type="email" placeholder="Address Here..." value="<%= user.address %>" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <button type="submit" class="btn btn-primary btn-round pull-right">Save</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="password" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-5 ml-auto mr-auto">
+                                    <div class="card card-background card-background-product card-raised" style="background: linear-gradient(90deg, #fc466b 0%, #3f5efb 100%)">
+                                        <div class="card-body">
+                                            <h2 class="card-title">Change password</h2>
+                                            <p class="card-description">
+                                                We highly recommend you should change password per 6 months
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <!-- Form change password -->
+                                    <div class="card card-contact card-raised">
+                                        <form role="form" id="contact-form" method="post">
+                                            <div class="card-header text-center">
+                                                <h4 class="card-title">Change password</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label>Current password</label>
+                                                        <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="now-ui-icons travel_info"></i>
+                                                    </span>
+                                                            <input type="email" placeholder="Current password Here..." class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label>New password</label>
+                                                        <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="now-ui-icons travel_info"></i>
+                                                    </span>
+                                                            <input type="email" placeholder="New password Here..." class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label>Confirm new password</label>
+                                                        <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="now-ui-icons travel_info"></i>
+                                                    </span>
+                                                            <input type="email" placeholder="Confirm..." class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <button type="submit" class="btn btn-primary btn-round pull-right">Save</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

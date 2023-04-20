@@ -1,4 +1,7 @@
+const userModel = require('../models/user.model');
 const productModel = require('../models/product.model');
+const jwt = require('jsonwebtoken');
+const {SECRET_KEY} = require('../config/secret_key.config');
 
 class Customer {
     async home(req, res) {
@@ -43,6 +46,24 @@ class Customer {
     async register(req, res) {
         const token = !!req.cookies.token;
         return res.render('register', {layout: false, token: token});
+    }
+
+    async profile(req, res) {
+        const token = req.cookies.token ?? " ";
+        try {
+            const verifyToken = jwt.verify(token.split(' ')[1], SECRET_KEY)
+            if (verifyToken) {
+                const user = await userModel.findOne({_id:verifyToken.id})
+                if (user) {
+                    return res.render('profile', {user: user, token: token})
+                }
+            }
+            res.clearCookie('token');
+            return res.redirect('./login');
+        } catch (e) {
+            res.clearCookie('token');
+            return res.redirect('./login');
+        }
     }
 }
 
