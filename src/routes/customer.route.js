@@ -16,5 +16,6 @@ router.get('/logout', authController.logoutCustomer)
 
 // Page after login
 router.get('/profile', authController.isUser, customerController.profile);
+router.get('/cart', authController.isUser, customerController.cart);
 
 module.exports = router;

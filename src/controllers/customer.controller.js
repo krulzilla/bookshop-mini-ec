@@ -65,6 +65,11 @@ class Customer {
             return res.redirect('./login');
         }
     }
+
+    async cart(req, res) {
+        const token = !!req.cookies.token;
+        return res.render('cart', {token: token})
+    }
 }
 
 module.exports = new Customer();
