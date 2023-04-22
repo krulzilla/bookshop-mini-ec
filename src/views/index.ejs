@@ -132,12 +132,6 @@
                                 <h4 class="card-title">
                                     <a href="/product/<%= ele._id %>"><%=  ele.name %></a>
                                 </h4>
-                                <p class="card-description">
-                                    <% let words = ele.description.split(' ');
-                                       let description = words.length > 25 ? words.slice(0, 25).join(' ') + ' ...' : words.join(' ');
-                                    %>
-                                    <%= description %>
-                                </p>
                                 <div class="card-footer">
                                     <div class="price-container">
                                         <span class="price price-old"> <%=  (ele.price * 1.2).toLocaleString() + 'đ' %></span>

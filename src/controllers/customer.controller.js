@@ -1,5 +1,6 @@
 const userModel = require('../models/user.model');
 const productModel = require('../models/product.model');
+const cartModel = require('../models/cart.model');
 const jwt = require('jsonwebtoken');
 const {SECRET_KEY} = require('../config/secret_key.config');
 
@@ -28,7 +29,17 @@ class Customer {
         try {
             const id = req.params.id;
             const token = !!req.cookies.token;
-            const product = await productModel.findOne({_id: id});
+            // Stopping here - lien ket bang & lay 1 gia tri = where
+            const product = await productModel.aggregate([
+                {
+                    $lookup: {
+                        from: "categories",
+                        localField: "id_category",
+                        foreignField: "_id",
+                        as: "category",
+                    },
+                }
+            ]).findOne({_id: id});
             if (product) {
                 return res.render('product_detail', {product: product, token: token});
             } return res.redirect('/')
@@ -49,13 +60,13 @@ class Customer {
     }
 
     async profile(req, res) {
-        const token = req.cookies.token ?? " ";
+        const rawToken = req.cookies.token ?? " ";
         try {
-            const verifyToken = jwt.verify(token.split(' ')[1], SECRET_KEY)
-            if (verifyToken) {
-                const user = await userModel.findOne({_id:verifyToken.id})
+            const token = jwt.verify(rawToken.split(' ')[1], SECRET_KEY)
+            if (token) {
+                const user = await userModel.findOne({_id:token.id})
                 if (user) {
-                    return res.render('profile', {user: user, token: token})
+                    return res.render('profile', {user: user, token: rawToken})
                 }
             }
             res.clearCookie('token');
@@ -67,8 +78,37 @@ class Customer {
     }
 
     async cart(req, res) {
-        const token = !!req.cookies.token;
-        return res.render('cart', {token: token})
+        const rawToken = !!req.cookies.token;
+        try {
+            const token = jwt.verify(rawToken.split(' ')[1], SECRET_KEY)
+            if (token) {
+                const user = await userModel.findOne({_id: token.id})
+            }
+        } catch (e) {
+
+        }
+        return res.render('cart', {token: rawToken})
+    }
+
+    async purchase(req, res) {
+        try {
+            const cart = await cartModel.create({
+                id_user: '63fb7266e7a49def68db8b55',
+                id_product: '6405fb10a053aa95862af028',
+                amount: 2,
+            })
+            if (cart) {
+                return res.json({
+                    status: 'success',
+                    msg: 'You have created cart'
+                })
+            }
+        } catch (e) {
+            return res.json({
+                status: 'fail',
+                msg: e.message
+            })
+        }
     }
 }
 

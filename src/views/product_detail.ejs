@@ -65,18 +65,15 @@
                             <div class="card-header" role="tab" id="headingOne">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
                                    aria-expanded="true" aria-controls="collapseOne">
-                                    Description
+                                    Details
                                     <i class="now-ui-icons arrows-1_minimal-down"></i>
                                 </a>
                             </div>
                             <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
                                 <div class="card-body">
-                                    <p>
-                                        <% let words = product.description.split(' ');
-                                        let description = words.length > 50 ? words.slice(0, 50).join(' ') + ' ...<a style="cursor: pointer; font-weight: 400">Load more</a>' : words.join(' ');
-                                        %>
-                                        <%- description %>
-                                    </p>
+                                    <p>Author: <%= product.author %></p>
+                                    <p>Publisher: <%= product.publisher %></p>
+                                    <p>Published at: <%= product.published_at.getDate() + '/' + (product.published_at.getMonth() + 1) + '/' + product.published_at.getFullYear() %></p>
                                 </div>
                             </div>
                         </div>
@@ -84,15 +81,19 @@
                             <div class="card-header" role="tab" id="headingTwo">
                                 <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
                                    aria-expanded="false" aria-controls="collapseTwo">
-                                    Details:
+                                    Description
                                     <i class="now-ui-icons arrows-1_minimal-down"></i>
                                 </a>
                             </div>
                             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                 <div class="card-body">
-                                    <p>Author: <%= product.author %></p>
-                                    <p>Publisher: <%= product.publisher %></p>
-                                    <p>Published at: <%= product.published_at.getDate() + '/' + (product.published_at.getMonth() + 1) + '/' + product.published_at.getFullYear() %></p>
+                                    <p>
+                                        <%
+                                        // let words = product.description.split(' ');
+                                        // let description = words.length > 50 ? words.slice(0, 50).join(' ') + ' ...<a style="cursor: pointer; font-weight: 400">Load more</a>' : words.join(' ');
+                                        %>
+                                        <%- product.description %>
+                                    </p>
                                 </div>
                             </div>
                         </div>
