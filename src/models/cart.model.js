@@ -1,8 +1,14 @@
 const {Schema, model} = require('mongoose');
 
 const cartSchema = new Schema({
-    id_user: String,
-    id_product: String,
+    id_user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+    },
+    id_product: {
+        type: Schema.Types.ObjectId,
+        ref: 'products'
+    },
     amount: Number
 })
 

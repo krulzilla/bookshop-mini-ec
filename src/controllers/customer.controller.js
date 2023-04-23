@@ -2,6 +2,7 @@ const userModel = require('../models/user.model');
 const productModel = require('../models/product.model');
 const cartModel = require('../models/cart.model');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose')
 const {SECRET_KEY} = require('../config/secret_key.config');
 
 class Customer {
@@ -38,12 +39,15 @@ class Customer {
                         foreignField: "_id",
                         as: "category",
                     },
+                }, {
+                    $match: {
+                        _id: new mongoose.Types.ObjectId(id)
+                    }
                 }
-            ]).findOne({_id: id});
+            ]);
             if (product) {
-                return res.render('product_detail', {product: product, token: token});
+                return res.render('product_detail', {product: product[0], token: token});
             } return res.redirect('/')
-
         } catch (e) {
             return res.status(500).send('Error happened');
         }

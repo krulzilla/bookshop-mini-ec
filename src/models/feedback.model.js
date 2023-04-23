@@ -1,14 +1,22 @@
 const {Schema, model} = require('mongoose');
 
 const feedbackSchema = new Schema({
-    id: String,
-    id_product: String,
-    id_user: String,
-    id_order: String,
+    id_product: {
+        type: Schema.Types.ObjectId,
+        ref: 'products'
+    },
+    id_user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+    },
+    id_order: {
+        type: Schema.Types.ObjectId,
+        ref: 'orders'
+    },
     rating: Number,
     comment: String,
-    created_at: Date,
-    updated_at: Date
+}, {
+    timestamps: true
 })
 
 module.exports = model('Feedback', feedbackSchema);

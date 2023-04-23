@@ -71,6 +71,7 @@
                             </div>
                             <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
                                 <div class="card-body">
+                                    <p>Category: <%= product.category[0].name %></p>
                                     <p>Author: <%= product.author %></p>
                                     <p>Publisher: <%= product.publisher %></p>
                                     <p>Published at: <%= product.published_at.getDate() + '/' + (product.published_at.getMonth() + 1) + '/' + product.published_at.getFullYear() %></p>
