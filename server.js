@@ -29,10 +29,12 @@ app.use(express.urlencoded({ extended: true }));
 const testApi = require('./src/routes/testapi.route');
 const adminRoute = require('./src/routes/admin.route');
 const customerRoute = require('./src/routes/customer.route');
+const apiRoute = require('./src/routes/api');
 
 // Use routes
 app.use('/', customerRoute);
 app.use('/admincp', adminRoute);
+app.use('/api', apiRoute);
 app.use('/api/test', testApi);
 
 app.listen(port, () => {

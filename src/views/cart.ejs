@@ -31,33 +31,39 @@
                                             </tr>
                                             </thead>
                                             <tbody>
+                                            <%
+                                                let total = 0;
+                                                cart.forEach(ele => {
+                                            %>
                                             <tr>
                                                 <td>
                                                     <div class="img-container">
-                                                        <img src="/public/assets/img/saint-laurent.jpg" alt="...">
+                                                        <img src="/public/resources/images/<%= ele.product[0].img_url %>" alt="...">
                                                     </div>
                                                 </td>
                                                 <td class="td-name">
-                                                    <a href="#jacket">Suede Biker Jacket</a>
+                                                    <a href="/product/<%= ele.product[0]._id %>"><%= ele.product[0].name %></a>
                                                     <br>
-                                                    <small>by Saint Laurent</small>
+                                                    <small>by <%= ele.product[0].author %></small>
                                                 </td>
                                                 <td></td>
                                                 <td></td>
                                                 <td class="td-number">
-                                                    <small>€</small>3,390
+                                                    <%= ele.product[0].price.toLocaleString() %><small>đ</small>
                                                 </td>
                                                 <td class="td-number">
-                                                    1
+                                                    <%= ele.amount %>
                                                     <div class="btn-group">
                                                         <button class="btn btn-info btn-sm"> <i class="now-ui-icons ui-1_simple-delete"></i> </button>
                                                         <button class="btn btn-info btn-sm"> <i class="now-ui-icons ui-1_simple-add"></i> </button>
                                                     </div>
                                                 </td>
                                                 <td class="td-number">
-                                                    <small>€</small>549
+                                                    <% let total_price_row = ele.product[0].price * ele.amount; total += total_price_row %>
+                                                    <%= total_price_row.toLocaleString() %><small>đ</small>
                                                 </td>
                                             </tr>
+                                            <% }) %>
                                             <tr>
                                                 <td colspan="3">
                                                 </td>
@@ -65,11 +71,11 @@
                                                     Total
                                                 </td>
                                                 <td class="td-price">
-                                                    <small>€</small>2,346
+                                                    <%= total.toLocaleString() %><small>đ</small>
                                                 </td>
                                                 <td colspan="3" class="text-right">
-                                                    <button type="button" rel="tooltip" class="btn btn-info btn-round " data-original-title="" title="">
-                                                        Complete Purchase
+                                                    <button type="button" rel="tooltip" class="btn btn-success btn-round " data-original-title="" title="">
+                                                        Purchase
                                                         <i class="now-ui-icons arrows-1_minimal-right"></i>
                                                     </button>
                                                 </td>

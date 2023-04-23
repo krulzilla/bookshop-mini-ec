@@ -82,16 +82,32 @@ class Customer {
     }
 
     async cart(req, res) {
-        const rawToken = !!req.cookies.token;
+        const rawToken = req.cookies.token ?? " ";
         try {
             const token = jwt.verify(rawToken.split(' ')[1], SECRET_KEY)
             if (token) {
-                const user = await userModel.findOne({_id: token.id})
+                const cart = await cartModel.aggregate([
+                    {
+                        $lookup: {
+                            from: 'products',
+                            localField: 'id_product',
+                            foreignField: '_id',
+                            as: 'product'
+                        }
+                    }, {
+                        $match: {
+                            id_user: new mongoose.Types.ObjectId(token.id)
+                        }
+                    }
+                ]);
+                if (cart) {
+                    console.log(cart)
+                    return res.render('cart', {cart: cart, token: rawToken})
+                }
             }
         } catch (e) {
-
+            return res.status(500).send('Error happened');
         }
-        return res.render('cart', {token: rawToken})
     }
 
     async purchase(req, res) {

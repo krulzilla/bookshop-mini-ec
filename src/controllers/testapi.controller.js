@@ -1,26 +1,33 @@
-const model = require('../models/feedback.model')
+const model = require('../models/cart.model')
+const mongoose = require('mongoose')
 
 class Api {
     async run(req, res) {
         try {
-            const category = await model.create({
-                id_order: '6444bcb28544deed45f0aa7c',
-                id_user: '63fc5bded94c4091b1e5b953',
-                id_product: '644409d1e6cece817cd57967',
-                rating: 5,
-                comment: 'Nice service'
-            })
-            if (category) {
-                return res.json({
-                    status: "success",
-                    msg: "Created successfully!"
-                })
-            } else {
-                return res.json({
-                    status: "fail",
-                    msg: "Failed when creating new!"
-                })
-            }
+            const cart = await model.aggregate([
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "id_user",
+                        foreignField: "_id",
+                        as: "user"
+                    },
+                }, {
+                    $lookup: {
+                        from: "products",
+                        localField: "id_product",
+                        foreignField: "_id",
+                        as: "product"
+                    }
+                },{
+                    $match: {
+                        id_user: new mongoose.Types.ObjectId('63fb7266e7a49def68db8b55')
+                    }
+                }
+            ]);
+            return res.json({
+                cart
+            });
         } catch (e) {
             return res.status(500).json({
                 status: "error",

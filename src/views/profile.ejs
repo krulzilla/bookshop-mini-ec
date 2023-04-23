@@ -50,7 +50,7 @@
                                                     <span class="input-group-addon">
                                                         <i class="now-ui-icons travel_info"></i>
                                                     </span>
-                                                    <input type="email" placeholder="Fullname Here..." value="<%= user.fullname %>" class="form-control">
+                                                    <input type="text" id="inputFullname" placeholder="Fullname Here..." value="<%= user.fullname %>" class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -61,7 +61,7 @@
                                                     <span class="input-group-addon">
                                                         <i class="now-ui-icons business_badge"></i>
                                                     </span>
-                                                            <input type="text" class="form-control" placeholder="Age Here..." value="<%= user.age %>" >
+                                                            <input type="number" id="inputAge" class="form-control" placeholder="Age Here..." value="<%= user.age %>" >
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 pl-2">
@@ -71,7 +71,7 @@
                                                         <span class="input-group-addon">
                                                             <i class="now-ui-icons tech_mobile"></i>
                                                         </span>
-                                                                <input type="text" placeholder="Phone Here..." value="<%= user.phone %>" class="form-control">
+                                                                <input type="text" id="inputPhone" placeholder="Phone Here..." value="<%= user.phone %>" class="form-control">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -83,7 +83,7 @@
                                                     <span class="input-group-addon">
                                                         <i class="now-ui-icons ui-1_email-85"></i>
                                                     </span>
-                                                    <input type="email" placeholder="Email Here..." value="<%= user.email %>" class="form-control">
+                                                    <input type="email" id="inputEmail" placeholder="Email Here..." value="<%= user.email %>" class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -94,13 +94,14 @@
                                                     <span class="input-group-addon">
                                                         <i class="now-ui-icons location_pin"></i>
                                                     </span>
-                                                    <input type="email" placeholder="Address Here..." value="<%= user.address %>" class="form-control">
+                                                    <input type="text" id="inputAddress" placeholder="Address Here..." value="<%= user.address %>" class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div id="profile-noti" class="mt-3"></div>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <button type="submit" class="btn btn-primary btn-round pull-right">Save</button>
+                                                        <button type="submit" id="btn-profile" class="btn btn-primary btn-round pull-right">Save</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -136,7 +137,7 @@
                                                     <span class="input-group-addon">
                                                         <i class="now-ui-icons travel_info"></i>
                                                     </span>
-                                                            <input type="email" placeholder="Current password Here..." class="form-control">
+                                                            <input type="text" id="currentPassword" placeholder="Current password Here..." class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -147,7 +148,7 @@
                                                     <span class="input-group-addon">
                                                         <i class="now-ui-icons travel_info"></i>
                                                     </span>
-                                                            <input type="email" placeholder="New password Here..." class="form-control">
+                                                            <input type="text" id="newPassword" placeholder="New password Here..." class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -158,13 +159,14 @@
                                                     <span class="input-group-addon">
                                                         <i class="now-ui-icons travel_info"></i>
                                                     </span>
-                                                            <input type="email" placeholder="Confirm..." class="form-control">
+                                                            <input type="text" id="confirmPassword" placeholder="Confirm..." class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div id="password-noti"></div>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <button type="submit" class="btn btn-primary btn-round pull-right">Save</button>
+                                                        <button type="submit" id="btn-password" class="btn btn-primary btn-round pull-right">Save</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -179,3 +181,105 @@
         </div>
     </div>
 </div>
+
+<%- contentFor('js') %>
+<script>
+    $('#btn-profile').click(function(e) {
+        e.preventDefault();
+        const fullname = $('#inputFullname').val();
+        const age = $('#inputAge').val();
+        const phone = $('#inputPhone').val();
+        const email = $('#inputEmail').val();
+        const address = $('#inputAddress').val();
+
+        $.ajax({
+            type: 'put',
+            url: '/api/user/profile/<%= user._id %>',
+            data: {
+                fullname,
+                age,
+                phone,
+                email,
+                address
+            },
+            success: function(data) {
+                console.log(data.msg);
+                if (data.status) {
+                    createNoti('success', '#profile-noti', data.msg)
+                } else {
+                    createNoti('err', '#profile-noti', data.msg)
+                }
+            },
+            error: function(err) {
+                createNoti('err', '#profile-noti', err.responseJSON.msg)
+            }
+        })
+    })
+
+    $('#btn-password').click(function (e) {
+        e.preventDefault();
+        const currentPassword = $('#currentPassword').val();
+        const newPassword = $('#newPassword').val();
+        const confirmPassword = $('#confirmPassword').val();
+
+        if (!(newPassword == confirmPassword)) {
+            createNoti('err', '#password-noti', 'Confirm password not correct');
+            return;
+        }
+
+        $.ajax({
+            type: 'put',
+            url: '/api/user/password/<%= user._id %>',
+            data: {
+                currentPassword,
+                newPassword
+            },
+            success: function(data) {
+                if (data.status) {
+                    createNoti('success', '#password-noti', data.msg);
+                } else {
+                    createNoti('err', '#password-noti', data.msg);
+                }
+            },
+            error: function(err) {
+                createNoti('err', '#password-noti', err.responseJSON.msg);
+            }
+        })
+    })
+
+    function createNoti(type, position, msg) {
+        if (type == 'success') {
+            $(position).html(`
+            <div class="alert alert-success" role="alert" style="border-radius: 15px">
+                <div class="container">
+                    <div class="alert-icon">
+                        <i class="now-ui-icons ui-2_like"></i>
+                    </div>
+                    <strong>${msg}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+            `);
+        } else {
+            $(position).html(`
+            <div class="alert alert-danger" role="alert" style="border-radius: 15px">
+                <div class="container">
+                    <div class="alert-icon">
+                        <i class="now-ui-icons ui-1_bell-53"></i>
+                    </div>
+                    <strong>${msg}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+            `);
+        }
+    }
+</script>

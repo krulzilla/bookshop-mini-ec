@@ -9,9 +9,9 @@ const userSchema = new Schema({
     address: String,
     phone: String,
     status: Boolean,
-    is_admin: Boolean,
-    created_at: Date,
-    updated_at: Date
+    is_admin: Boolean
+}, {
+    timestamps: true
 })
 
 module.exports = model("Users", userSchema);
