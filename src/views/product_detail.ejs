@@ -99,8 +99,9 @@
                             </div>
                         </div>
                     </div>
+                    <div id="noti"></div>
                     <div class="row justify-content-end">
-                        <button class="btn btn-primary mr-3">Add to Cart &nbsp;<i
+                        <button class="btn btn-primary mr-3" id="btn-addtocart">Add to Cart &nbsp;<i
                                     class="now-ui-icons shopping_cart-simple"></i></button>
                     </div>
                 </div>
@@ -231,3 +232,63 @@
         </div>
     </div>
 </div>
+
+<%- contentFor('js') %>
+<script>
+    $('#btn-addtocart').click(function(e) {
+        $.ajax({
+            method: 'post',
+            url: '/api/cart/',
+            data: {
+                id_product: '<%= product._id %>',
+                amount: -1
+            },
+            success: function (data) {
+                if (data) {
+                    createNoti('success', '#noti', 'Added product to cart!')
+                } else {
+                    createNoti('fail', '#noti', 'Failed when add product to cart!')
+                }
+            },
+            error: function (err) {
+                createNoti('fail', '#noti', 'Failed when add product to cart!')
+            }
+        })
+    })
+
+    function createNoti(type, position, msg) {
+        if (type == 'success') {
+            $(position).html(`
+            <div class="alert alert-success" role="alert" style="border-radius: 15px">
+                <div class="container">
+                    <div class="alert-icon">
+                        <i class="now-ui-icons shopping_cart-simple"></i>
+                    </div>
+                    <strong>${msg}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+            `);
+        } else {
+            $(position).html(`
+            <div class="alert alert-danger" role="alert" style="border-radius: 15px">
+                <div class="container">
+                    <div class="alert-icon">
+                        <i class="now-ui-icons ui-1_bell-53"></i>
+                    </div>
+                    <strong>${msg}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+            `);
+        }
+    }
+</script>

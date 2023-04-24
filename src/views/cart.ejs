@@ -12,7 +12,8 @@
                                     <div class="table-responsive">
                                         <table class="table table-shopping">
                                             <thead class="">
-                                            <tr><th class="text-center">
+                                            <tr>
+                                                <th class="text-center">
                                                 </th>
                                                 <th>
                                                     Product
@@ -48,19 +49,25 @@
                                                 </td>
                                                 <td></td>
                                                 <td></td>
-                                                <td class="td-number">
-                                                    <%= ele.product[0].price.toLocaleString() %><small>đ</small>
+                                                <td class="td-number col-price">
+                                                    <span><%= ele.product[0].price.toLocaleString() %></span><small>đ</small>
                                                 </td>
                                                 <td class="td-number">
-                                                    <%= ele.amount %>
+                                                    <span><%= ele.amount %></span>
+                                                    <p class="id_product d-none"><%= ele.id_product %></p>
                                                     <div class="btn-group">
-                                                        <button class="btn btn-info btn-sm"> <i class="now-ui-icons ui-1_simple-delete"></i> </button>
-                                                        <button class="btn btn-info btn-sm"> <i class="now-ui-icons ui-1_simple-add"></i> </button>
+                                                        <button class="btn btn-info btn-sm btn-dec"> <i class="now-ui-icons ui-1_simple-delete"></i> </button>
+                                                        <button class="btn btn-info btn-sm btn-inc"> <i class="now-ui-icons ui-1_simple-add"></i> </button>
                                                     </div>
                                                 </td>
-                                                <td class="td-number">
+                                                <td class="td-number total-row">
                                                     <% let total_price_row = ele.product[0].price * ele.amount; total += total_price_row %>
-                                                    <%= total_price_row.toLocaleString() %><small>đ</small>
+                                                    <span><%= total_price_row.toLocaleString() %></span><small>đ</small>
+                                                </td>
+                                                <td class="td-actions">
+                                                    <button type="button" rel="tooltip" data-placement="left" title="" class="btn btn-neutral" data-original-title="Remove item">
+                                                        <i class="now-ui-icons ui-1_simple-remove"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                             <% }) %>
@@ -71,7 +78,7 @@
                                                     Total
                                                 </td>
                                                 <td class="td-price">
-                                                    <%= total.toLocaleString() %><small>đ</small>
+                                                    <span><%= total.toLocaleString() %></span><small>đ</small>
                                                 </td>
                                                 <td colspan="3" class="text-right">
                                                     <button type="button" rel="tooltip" class="btn btn-success btn-round " data-original-title="" title="">
@@ -93,3 +100,73 @@
         </div>
     </div>
 </div>
+
+<%- contentFor('js') %>
+<script>
+    $(document).on('click', '.btn-inc', function(e) {
+        const parent = $(this).parent().parent();
+        const price = +parent.parent().find('.col-price span').text().trim().replaceAll(',', '');
+        const id_product = parent.find('p.id_product').text().trim();
+        const currentQt = parent.find('span').text().trim();
+        const newQt = +currentQt + 1;
+        const totalRow = parent.parent().find('.total-row span');
+        const totalRowVal = +totalRow.text().trim().replaceAll(',', '');
+
+        $.ajax({
+            method: 'post',
+            url: '/api/cart',
+            data: {
+                id_product,
+                amount: newQt
+            },
+            success: function (data) {
+                if (data) {
+                    parent.find('span').text(newQt);
+                    totalRow.text((totalRowVal + price).toLocaleString());
+                    calcTotal(price, 'inc');
+                }
+            }
+        })
+    })
+
+    $(document).on('click', '.btn-dec', function(e) {
+        const parent = $(this).parent().parent();
+        const price = +parent.parent().find('.col-price span').text().trim().replaceAll(',', '');
+        const id_product = parent.find('p.id_product').text().trim();
+        const currentQt = parent.find('span').text().trim();
+        const newQt = +currentQt - 1;
+        const totalRow = parent.parent().find('.total-row span');
+        const totalRowVal = +totalRow.text().trim().replaceAll(',', '');
+
+        if (newQt == 0) {
+            const next = confirm('Are you sure to remove this product from cart?');
+            if (!next) return;
+        }
+
+        $.ajax({
+            method: 'post',
+            url: '/api/cart',
+            data: {
+                id_product,
+                amount: newQt
+            },
+            success: function (data) {
+                if (data) {
+                    parent.find('span').text(newQt);
+                    if (newQt == 0) {
+                        parent.parent().remove();
+                    } else totalRow.text((totalRowVal - price).toLocaleString());
+                    calcTotal(price, 'dec');
+                }
+            }
+        })
+    })
+
+    function calcTotal(price, type) {
+        const currentTotal = +$('.td-price').find('span').text().trim().replaceAll(',', '');
+        let newTotal = 0;
+        if (type == 'inc') newTotal= currentTotal + price;
+        else newTotal = currentTotal - price;
+        $('.td-price').find('span').text(newTotal.toLocaleString());
+    }
+</script>

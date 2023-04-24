@@ -9,7 +9,10 @@ const cartSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'products'
     },
-    amount: Number
+    amount: {
+        type: Number,
+        default: 0
+    }
 })
 
 module.exports = model('Cart', cartSchema);
