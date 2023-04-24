@@ -129,7 +129,7 @@
                                 <img class="img rounded" src="/public/resources/images/<%=  ele.img_url %>"/>
                             </div>
                             <div class="card-body">
-                                <h4 class="card-title">
+                                <h4 class="card-title" rel="tooltip" title="<%= ele.name %>" data-placement="bottom" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                     <a href="/product/<%= ele._id %>"><%=  ele.name %></a>
                                 </h4>
                                 <div class="card-footer">

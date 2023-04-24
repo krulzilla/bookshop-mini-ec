@@ -1,6 +1,7 @@
 const userModel = require('../models/user.model');
 const productModel = require('../models/product.model');
 const cartModel = require('../models/cart.model');
+const categoryModel = require('../models/category.model');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
 const {SECRET_KEY} = require('../config/secret_key.config');
@@ -8,7 +9,24 @@ const {SECRET_KEY} = require('../config/secret_key.config');
 class Customer {
     async home(req, res) {
         try {
-            const products = await productModel.find({});
+            const products = await productModel.aggregate([
+                {
+                    $lookup: {
+                        from: 'categories',
+                        localField: 'id_category',
+                        foreignField: '_id',
+                        as: 'category'
+                    }
+                },
+                {
+                    $sort: {
+                        published_at: -1
+                    }
+                },
+                {
+                    $limit: 6
+                }
+            ]);
             const token = !!req.cookies.token;
             return res.render('index', {products: products, token: token});
         } catch (e) {
@@ -18,9 +36,19 @@ class Customer {
 
     async products(req, res) {
         try {
-            const products = await productModel.find({});
+            const products = await productModel.aggregate([
+                {
+                    $lookup: {
+                        from: 'categories',
+                        localField: 'id_category',
+                        foreignField: '_id',
+                        as: 'category'
+                    }
+                }
+            ]);
+            const category = await categoryModel.find({});
             const token = !!req.cookies.token;
-            return res.render('products', {products: products, token: token});
+            return res.render('products', {products: products, token: token, category: category});
         } catch (e) {
             return res.status(500).send('Error happened');
         }
@@ -30,7 +58,6 @@ class Customer {
         try {
             const id = req.params.id;
             const token = !!req.cookies.token;
-            // Stopping here - lien ket bang & lay 1 gia tri = where
             const product = await productModel.aggregate([
                 {
                     $lookup: {

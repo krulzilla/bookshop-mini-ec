@@ -91,12 +91,40 @@ class Cart {
         }
     }
 
-    async update(req, res) {
-
-    }
-
     async delete(req, res) {
+        try {
+            const {id: id_product} = req.params;
+            const rawToken = req.cookies.token;
+            // Verify token -> get id user
+            const token = rawToken.split(" ")[1];
+            const user = jwt.verify(token, SECRET_KEY);
 
+            if (!user) {
+                return res.json({
+                    status: false,
+                    msg: 'User not found!'
+                })
+            }
+
+            const cart = await cartModel.findOneAndDelete({
+                id_product,
+                id_user: user.id
+            })
+            if (cart) {
+                return res.json({
+                    status: true,
+                    msg: 'Successfully!'
+                })
+            } else return res.json({
+                status: false,
+                msg: "Some error happened in server!"
+            })
+        } catch (e) {
+            return res.status(500).json({
+                status: false,
+                msg: "Some error happened in server!"
+            })
+        }
     }
 }
 

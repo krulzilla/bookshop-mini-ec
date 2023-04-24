@@ -64,8 +64,8 @@
                                                     <% let total_price_row = ele.product[0].price * ele.amount; total += total_price_row %>
                                                     <span><%= total_price_row.toLocaleString() %></span><small>đ</small>
                                                 </td>
-                                                <td class="td-actions">
-                                                    <button type="button" rel="tooltip" data-placement="left" title="" class="btn btn-neutral" data-original-title="Remove item">
+                                                <td class="td-actions col-del">
+                                                    <button type="button" rel="tooltip" data="<%= ele.id_product %>" data-placement="left" title="" class="btn btn-neutral" data-original-title="Remove item">
                                                         <i class="now-ui-icons ui-1_simple-remove"></i>
                                                     </button>
                                                 </td>
@@ -157,6 +157,26 @@
                         parent.parent().remove();
                     } else totalRow.text((totalRowVal - price).toLocaleString());
                     calcTotal(price, 'dec');
+                }
+            }
+        })
+    })
+
+    $(document).on('click', '.col-del button', function (e) {
+        const id_product = $(this).attr('data');
+        const row = $(this).parent().parent();
+        const totalRow = row.find('.total-row span');
+        const totalRowVal = +totalRow.text().trim().replaceAll(',', '');
+
+        if (!confirm('Are you sure to remove this product from cart?')) return;
+
+        $.ajax({
+            type: 'delete',
+            url: `/api/cart/${id_product}`,
+            success: function (data) {
+                if (data) {
+                    row.remove();
+                    calcTotal(totalRowVal, 'dec');
                 }
             }
         })
