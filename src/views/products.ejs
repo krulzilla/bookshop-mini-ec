@@ -32,7 +32,7 @@
                                             <% category.forEach(ele => { %>
                                             <div class="checkbox category-checkbox">
                                                 <input id="<%= ele._id %>" type="checkbox">
-                                                <label for="<%= ele._id %>">
+                                                <label>
                                                     <%= ele.name %>
                                                 </label>
                                             </div>
@@ -45,11 +45,6 @@
                     </div>
                     <div class="col-md-9">
                         <div class="row" id="show-products">
-
-                            <% products.forEach((ele, index) => { %>
-
-
-                            <% }) %>
 <!--                            <div class="col-md-3 ml-auto mr-auto">-->
 <!--                                <button rel="tooltip" class="btn btn-primary btn-round">Load more...</button>-->
 <!--                            </div>-->

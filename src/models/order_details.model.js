@@ -10,7 +10,7 @@ const orderDetailsSchema = new Schema({
         ref: 'products'
     },
     amount: Number,
-    total: Number
+    price: Number
 })
 
 module.exports = model('Order_details', orderDetailsSchema);

@@ -1,6 +1,6 @@
 let filter_values = [];
 $('.category-checkbox').click(function (e) {
-    const category = $(this).find('label').attr('for');
+    const category = $(this).find('input').attr('id');
     if (!filter_values.includes(category)) {
         filter_values.push(category);
     } else {
@@ -24,7 +24,7 @@ $(document).ready(function () {
         totalNumberLocator: function (response) {
             return response.totalRow;
         },
-        pageSize: 2,
+        pageSize: 6,
         showNavigator: true,
         formatNavigator: '<%= rangeStart %>-<%= rangeEnd %> of <%= totalNumber %> products',
         position: 'top',

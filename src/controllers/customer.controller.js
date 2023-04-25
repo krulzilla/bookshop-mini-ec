@@ -2,6 +2,8 @@ const userModel = require('../models/user.model');
 const productModel = require('../models/product.model');
 const cartModel = require('../models/cart.model');
 const categoryModel = require('../models/category.model');
+const orderModel = require('../models/order.model');
+const orderDetailsModel = require('../models/order_details.model');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
 const {SECRET_KEY} = require('../config/secret_key.config');
@@ -36,19 +38,9 @@ class Customer {
 
     async products(req, res) {
         try {
-            const products = await productModel.aggregate([
-                {
-                    $lookup: {
-                        from: 'categories',
-                        localField: 'id_category',
-                        foreignField: '_id',
-                        as: 'category'
-                    }
-                }
-            ]);
             const category = await categoryModel.find({});
             const token = !!req.cookies.token;
-            return res.render('products', {products: products, token: token, category: category});
+            return res.render('products', {token: token, category: category});
         } catch (e) {
             return res.status(500).send('Error happened');
         }
@@ -128,7 +120,6 @@ class Customer {
                     }
                 ]);
                 if (cart) {
-                    console.log(cart)
                     return res.render('cart', {cart: cart, token: rawToken})
                 }
             }
@@ -137,23 +128,112 @@ class Customer {
         }
     }
 
-    async purchase(req, res) {
+    async orders(req, res) {
+        const rawToken = req.cookies.token ?? " ";
         try {
-            const cart = await cartModel.create({
-                id_user: '63fb7266e7a49def68db8b55',
-                id_product: '6405fb10a053aa95862af028',
-                amount: 2,
-            })
-            if (cart) {
-                return res.json({
-                    status: 'success',
-                    msg: 'You have created cart'
-                })
+            const token = jwt.verify(rawToken.split(' ')[1], SECRET_KEY);
+            if (token) {
+                const orders = await orderModel.find({
+                    id_user: token.id
+                });
+                if (orders) {
+                    return res.render('orders', {token: rawToken, orders: orders})
+                }
             }
         } catch (e) {
-            return res.json({
-                status: 'fail',
-                msg: e.message
+            return res.status(500).send('Error happened');
+        }
+    }
+
+    async purchase(req, res) {
+        const rawToken = req.cookies.token ?? " ";
+        try {
+            const token = jwt.verify(rawToken.split(' ')[1], SECRET_KEY);
+            if (token) {
+                const cart = await cartModel.aggregate([
+                    {
+                        $lookup: {
+                            from: 'products',
+                            localField: 'id_product',
+                            foreignField: '_id',
+                            as: 'product'
+                        }
+                    }, {
+                        $match: {
+                            id_user: new mongoose.Types.ObjectId(token.id)
+                        }
+                    }
+                ]);
+                if (cart) {
+                    return res.render('purchase', {cart: cart, token: rawToken})
+                }
+            }
+        } catch (e) {
+            return res.status(500).send('Error happened');
+        }
+    }
+
+    async checkout(req, res) {
+        const rawToken = req.cookies.token ?? " ";
+        try {
+            const token = jwt.verify(rawToken.split(' ')[1], SECRET_KEY);
+            if (token) {
+                const cart = await cartModel.aggregate([
+                    {
+                        $lookup: {
+                            from: 'products',
+                            localField: 'id_product',
+                            foreignField: '_id',
+                            as: 'product'
+                        }
+                    }, {
+                        $match: {
+                            id_user: new mongoose.Types.ObjectId(token.id)
+                        }
+                    }
+                ]);
+
+                if (cart.length == 0) {
+                    return res.json({
+                        status: false,
+                        msg: "No product in cart!"
+                    })
+                }
+                const total = cart.reduce((res, ele) => res + ( ele.product[0].price * ele.amount) ,0);
+                // Create order
+                const order = await orderModel.create({
+                    id_user: token.id,
+                    total
+                })
+                // Create order details
+                cart.forEach(async (ele) => {
+                     await orderDetailsModel.create({
+                         id_order: order._id,
+                         id_product: ele.id_product,
+                         amount: ele.amount,
+                         price: ele.product[0].price
+                     })
+                })
+                // Remove cart
+                cart.forEach(async (ele) => {
+                    await cartModel.findByIdAndRemove(ele._id.toString());
+                })
+                // Decrease quantity available product
+                cart.forEach(async (ele) => {
+                    await productModel.findByIdAndUpdate(ele.product[0]._id.toString(), {$inc : {'amount' : -ele.amount}});
+                })
+
+                if (order) {
+                    return res.json({
+                        status: true,
+                        msg: "Checkout successfully!"
+                    })
+                }
+            }
+        } catch (e) {
+            return res.status(500).json({
+                status: false,
+                msg: 'Somethings went wrong'
             })
         }
     }

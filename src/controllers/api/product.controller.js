@@ -41,6 +41,7 @@ class Product {
         try {
             let products, length;
             if (category) {
+                // Has filter category
                 category = typeof category == 'string' ? [category] : category;
                 category = category.map(ele => new mongoose.Types.ObjectId(ele));
                 products = await productModel.aggregate([
