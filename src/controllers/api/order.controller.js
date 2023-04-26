@@ -71,7 +71,7 @@ class Order {
                         }
                     },
                     {
-                        $sort: {createdAt: -1}
+                        $sort: {status: 1, createdAt: -1}
                     },
                     {
                         $skip: skip
